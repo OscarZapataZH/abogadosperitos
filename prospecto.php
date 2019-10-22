@@ -1,48 +1,68 @@
 <?php
-require_once 'database.php';
-?>
-<div class="container">
-<?php
-if(isset($_POST['addnew'])){
-    if( empty($_POST['nombre']) || empty($_POST['telefono'])
-        || empty($_POST['email']) || empty($_POST['curriculum']) )
-    {
-        echo "Please fillout all required fields";
-    }else{
+     
+    require 'database.php';
+ 
+    if ( !empty($_POST)) {
+        // keep track validation errors
+        $nombreError = null;
+        $telefonoError = null;
+        $emailError = null;
+        $curriculumError = null;        
+         
+
+        // keep track post values
         $nombre = $_POST['nombre'];
         $telefono = $_POST['telefono'];
         $email = $_POST['email'];
-        $curriculum = $_POST['curriculum'];
-        $sql = "INSERT INTO candidatos (nombre,telefono,email,curriculum)
-        VALUES('$nombre','$telefono','$email','$curriculum')";
-
-        if( $connect->query($sql) === TRUE){
-            echo "<div class='alert alert-success'>Successfully added new user</div>";
-        }else{
-            echo "<div class='alert alert-danger'>Error: There was an error while adding new user</div>";
+        $curriculum = $_POST['curriculum'];        
+         
+        // validate input
+        $valid = true;
+        if (empty($nombre)) {
+            $nombreError = 'Por favor ingresa un nombre';
+            $valid = false;
         }
-    }    
-}
+         
+        if (empty($telefono)) {
+            $telefonoError = 'Por favor ingresa el telefono';
+            $valid = false;
+        } 
+         
+        if (empty($email)) {
+            $emailError = 'Por favor ingresa email';
+            $valid = false;
+        }
+
+         if (empty($curriculum)) {
+            $curriculumError = 'Por favor ingresa archivo';
+            $valid = false;
+        } 
+         
+        // insert data
+        if ($valid) {
+            $pdo = Database::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "INSERT INTO candidatos (nombre,telefono,email,curriculum) values(?, ?, ?, ?)";
+            $q = $pdo->prepare($sql);
+            $q->execute(array($nombre,$telefono,$email, $curriculum));
+            Database::disconnect();
+            header("Location: prospecto.php");
+        }
+    }
 ?>
 
 <!DOCTYPE html>
-<!--[if lt IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7 "> <![endif]-->
-<!--[if IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]><html class="no-js lt-ie10 lt-ie9"> <![endif]-->
-<!--[if IE 9]><html class="no-js lt-ie10"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js">
-<!--<![endif]-->
+<!-- 
+Template Name: Griffin - Responsive Bootstrap 4 Admin Dashboard Template
+Author: Hencework
+Support: support@hencework.com
+
+License: You must have a valid license purchased only from templatemonster to legally use the template for your project.
+-->
+<html lang="en">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <body class="page-parent template-slider color-blue layout-full-width header-fixed subheader-transparent sticky-header sticky-white subheader-title-left">
-
-    <!-- Main Theme Wrapper -->
-    <div id="Wrapper">
-        <!-- Header Wrapper -->
-        <div id="Header_wrapper">            
-        </header>
-    </div>
-    <br>
+<body>
     <!-- Preloader -->
     <div class="preloader-it">
         <div class="loader-pendulums"></div>
@@ -52,19 +72,21 @@ if(isset($_POST['addnew'])){
 	<!-- HK Wrapper -->
 	<div class="hk-wrapper hk-alt-nav">
 
+        <!-- Top Navbar -->
+        
+        <!-- /Top Navbar -->
 
         <!-- Main Content -->
-        <div class="hk-pg-wrapper">            
-            
+        <div class="hk-pg-wrapper">
+            <br>
+            <br>
 
             <!-- Container -->
             <div class="container-fluid">
-<br>
-<br>
-<br>
+
                 <!-- Title -->
                 <div class="hk-pg-header">
-                    <h4 class="hk-pg-title"><span class="pg-title-icon"><span class="feather-icon"><i data-feather="database"></i></span></span>Registrarse</h4>
+                    <h4 class="hk-pg-title"><span class="pg-title-icon"><span class="feather-icon"><i data-feather="database"></i></span></span>Prospecto</h4>
                 </div>
                 <!-- /Title -->
 
@@ -72,51 +94,57 @@ if(isset($_POST['addnew'])){
                 <div class="row">
                     <div class="col-xl-12">
                     <section class="hk-sec-wrapper">
-                            <h5 class="hk-sec-title">Datos generales</h5>
+                            <h5 class="hk-sec-title">Datos del usuario</h5>
                             <div class="row">
                                 <div class="col-sm">
                                 <form class="form-horizontal" action="prospecto.php" method="post">
 
 
-                                        <div class="form-group row " >
-                                            <label for="inputEmail3" class="col-sm-2 col-form-label">Nombre completo</label>
+                                        <div class="form-group row <?php echo !empty($nombreError)?'error':'';?> " >
+                                            <label for="inputEmail3" class="col-sm-2 col-form-label">Nombre del plan</label>
                                             <div class="col-sm-10">                                            
-                                            <input name="nombre" class="form-control" type="text"  placeholder="Nombre completo" required>                                            
-                                                <span class="help-inline"></span>                                            
+                                            <input name="nombre" class="form-control" type="text"  placeholder="Nombre" value="<?php echo !empty($nombre)?$nombre:'';?>">
+                                            <?php if (!empty($nombreError)): ?>
+                                                <span class="help-inline"><?php echo $nombreError;?></span>
+                                            <?php endif; ?>
                                             </div>
                                         </div>                         
                                         
-                                        <div class="form-group row">
-                                            <label for="inputPassword3" class="col-sm-2 col-form-label">Teléfono</label>
-                                            <div class="col-sm-10">                                                
-                                                <input name="telefono" type="text"  class="form-control" placeholder="Teléfono" required>                                                
-                                                    <span class="help-inline"></span>                                                
+                                        <div class="form-group row <?php echo !empty($telefonoError)?'error':'';?>">
+                                            <label for="inputEmail3" class="col-sm-2 col-form-label">Telefono</label>
+                                            <div class="col-sm-10">
+                                            <input name="telefono" class="form-control" type="text" placeholder="Telefono" value="<?php echo !empty($telefono)?$telefono:'';?>">
+                                            <?php if (!empty($telefonoError)): ?>
+                                                <span class="help-inline"><?php echo $telefonoError;?></span>
+                                            <?php endif;?>
+                                            </div>
+                                        </div>                      
+
+                                        <div class="form-group row <?php echo !empty($emailError)?'error':'';?>">
+                                            <label for="inputPassword3" class="col-sm-2 col-form-label">Email</label>
+                                            <div class="col-sm-10">
+                                            <input name="email" class="form-control" type="text"  placeholder="Email" value="<?php echo !empty($email)?$email:'';?>">
+                                            <?php if (!empty($emailError)): ?>
+                                                <span class="help-inline"><?php echo $emailError;?></span>
+                                            <?php endif;?>
                                             </div>
                                         </div>
-
-                                        <div class="form-group row">
-                                            <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-                                            <div class="col-sm-10">
-                                            <input name="email" class="form-control" type="text" placeholder="Email" required >                                            
-                                                <span class="help-inline"></span>                                            
+                                                            
+                                        <div class="form-group row  <?php echo !empty($curriculumError)?'error':'';?>">
+                                            <label for="inputPassword3" class="col-sm-2 col-form-label">Curriculum</label>
+                                            <div class="col-sm-10">                                                
+                                                <input name="curriculum" class="form-control" type="file"  placeholder="Curriculum" value="<?php echo !empty($curriculum)?$curriculum:'';?>">
+                                                <?php if (!empty($curriculumError)): ?>
+                                                    <span class="help-inline"><?php echo $curriculumError;?></span>
+                                                <?php endif;?>
                                             </div>
-                                        </div>      
-
-
-                                        <div class="form-group row">
-                                            <label for="inputEmail3" class="col-sm-2 col-form-label">Currículum</label>
-                                            <div class="col-sm-10">
-                                            <input name="curriculum" class="form-control" type="file" placeholder="curriculum" required>                                            
-                                            </div>
-                                        </div>                                                        
-                                                                                                                                    
+                                        </div>                                                                   
                                                                             
                                         <div class="form-group row mb-0">
                                             <div class="col-sm-10">
-                                            <input type="submit" name="addnew" class="btn btn-success" value="Add New">
-                                            </div>                
-                                                                    
-                                        </div>                                                                                                
+                                                <button type="submit" class="btn btn-primary">Guardar</button>                                                
+                                            </div>                                        
+                                        </div>                                        
                                     </form>                                    
                                 </div>
                             </div>
@@ -127,8 +155,8 @@ if(isset($_POST['addnew'])){
 
             </div>
             <!-- /Container -->            
-            <!-- Footer -->            
-            <br>
+            <!-- Footer -->
+            
             <!-- /Footer -->
 
         </div>
@@ -137,7 +165,8 @@ if(isset($_POST['addnew'])){
     </div>
     <!-- /HK Wrapper -->
 
-
+    
+    
 </body>
 
 </html>
