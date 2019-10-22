@@ -1,47 +1,29 @@
-<?php 
-/* 
-require_once 'database.php';
- 
-if($_POST) {
-    $nombre = $_POST['nombre'];
-    $telefono = $_POST['telefono'];
-    $email = $_POST['email'];
-    $curriculum = $_POST['curriculum'];
- 
-    $sql = "INSERT INTO candidatos (nombre, email, telefono, curriculum) VALUES ('$nombre', '$email', '$telefono', '$curriculum')";    
-    if($connect->query($sql) === TRUE) {
-        echo "<p>New Record Successfully Created</p>";
-        echo "<a href='prospecto.php'><button type='button'>Back</button></a>";
-        echo "<a href='index.php'><button type='button'>Home</button></a>";
-    } else {
-        echo "Error " . $sql . ' ' . $connect->connect_error;
-    }
- 
-    $connect->close();
-}
- */
-?>
 <?php
-                                 require_once 'database.php';
-                                 $sql=new mysqli(host,user,pass,db);
-                                 if($_POST) {
-                                    $nombre = $_POST['nombre'];
-                                    $telefono = $_POST['telefono'];
-                                    $email = $_POST['email'];
-                                    $curriculum = $_POST['curriculum'];
+require_once 'database.php';
+?>
+<div class="container">
+<?php
+if(isset($_POST['addnew'])){
+    if( empty($_POST['nombre']) || empty($_POST['telefono'])
+        || empty($_POST['email']) || empty($_POST['curriculum']) )
+    {
+        echo "Please fillout all required fields";
+    }else{
+        $nombre = $_POST['nombre'];
+        $telefono = $_POST['telefono'];
+        $email = $_POST['email'];
+        $curriculum = $_POST['curriculum'];
+        $sql = "INSERT INTO candidatos (nombre,telefono,email,curriculum)
+        VALUES('$nombre','$telefono','$email','$curriculum')";
 
-                                    if($sql->connect_errno){
-                                        die("Error de conexión: " . $objetoMysqli->mysqli_connect_errno() . ", " . $objetoMysqli->connect_error());
-                                    }else{                                        
-                                        $consulta="INSERT INTO candidatos (nombre, email, telefono, curriculum) VALUES ('$nombre', '$email', '$telefono', '$curriculum')";
-                                        $resultado=$sql->query($consulta); 
-                                        }
-
-                                    }
-                                    mysqli_close($sql);
-                                                                               ?>
-
-
+        if( $connect->query($sql) === TRUE){
+            echo "<div class='alert alert-success'>Successfully added new user</div>";
+        }else{
+            echo "<div class='alert alert-danger'>Error: There was an error while adding new user</div>";
+        }
+    }    
+}
+?>
 
 <!DOCTYPE html>
 <!--[if lt IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7 "> <![endif]-->
@@ -131,7 +113,7 @@ if($_POST) {
                                                                             
                                         <div class="form-group row mb-0">
                                             <div class="col-sm-10">
-                                                <button type="submit" class="btn btn-primary">Guardar</button>                                                
+                                            <input type="submit" name="addnew" class="btn btn-success" value="Add New">
                                             </div>                
                                                                     
                                         </div>                                                                                                
