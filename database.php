@@ -1,8 +1,8 @@
 <?php 
  
-$localhost = "localhost"; 
-$username = "abogad57_root"; 
-$password = "_u2?]&_M&rC8"; 
+$localhost = "127.0.0.1"; 
+$username = "abogad57_admin"; 
+$password = "GomezMauricio3097"; 
 $dbname = "abogad57_peritos"; 
  
 // create connection 
