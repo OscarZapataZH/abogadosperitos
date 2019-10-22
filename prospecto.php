@@ -93,7 +93,7 @@ if($_POST) {
                                             </div>
                                         </div>
 
-                                        <div class="form-group row <?php echo !empty($priceError)?'error':'';?>">
+                                        <div class="form-group row">
                                             <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
                                             <div class="col-sm-10">
                                             <input name="email" class="form-control" type="text" placeholder="Email" required >                                            
