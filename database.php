@@ -3,8 +3,8 @@ class Database
 {
     private static $dbName = 'abogad57_peritos' ;
     private static $dbHost = 'localhost' ;
-    private static $dbUsername = 'abogad57_admin';
-    private static $dbUserPassword = 'GomezMauricio3097';
+    private static $dbUsername = 'root';
+    private static $dbUserPassword = '';
      
     private static $cont  = null;
      
