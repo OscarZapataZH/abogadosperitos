@@ -1,37 +1,18 @@
-<?php
-class Database
-{
-    private static $dbName = 'abogad57_peritos' ;
-    private static $dbHost = 'localhost' ;
-    private static $dbUsername = 'root';
-    private static $dbUserPassword = '';
-     
-    private static $cont  = null;
-     
-    public function __construct() {
-        die('Init function is not allowed');
-    }
-     
-    public static function connect()
-    {
-       // One connection through whole application
-       if ( null == self::$cont )
-       {     
-        try
-        {
-          self::$cont =  new PDO( "mysql:host=".self::$dbHost.";"."dbname=".self::$dbName, self::$dbUsername, self::$dbUserPassword); 
-        }
-        catch(PDOException $e)
-        {
-          die($e->getMessage()); 
-        }
-       }
-       return self::$cont;
-    }
-     
-    public static function disconnect()
-    {
-        self::$cont = null;
-    }
+<?php 
+ 
+$localhost = "127.0.0.1"; 
+$username = "abogad57_root"; 
+$password = "_u2?]&_M&rC8"; 
+$dbname = "abogad57_peritos"; 
+ 
+// create connection 
+$connect = new mysqli($localhost, $username, $password, $dbname); 
+ 
+// check connection 
+if($connect->connect_error) {
+    die("connection failed : " . $connect->connect_error);
+} else {
+    // echo "Successfully Connected";
 }
+ 
 ?>

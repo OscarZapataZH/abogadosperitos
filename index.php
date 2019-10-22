@@ -11,7 +11,7 @@
     <center>
     <img src="construct.jpg" alt="80%" width="80%">
     <br>
-    <a href="prospectos.php"> <button type="button" class="btn btn-success btn-lg">Prospectos</button></a>
+    <a href="prospecto.php"> <button type="button" class="btn btn-success btn-lg">Prospectos</button></a>
 </center>
 </body>
 </html>
