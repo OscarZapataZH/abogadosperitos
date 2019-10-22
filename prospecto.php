@@ -1,29 +1,30 @@
 <?php 
- 
 require_once 'database.php';
- 
-if($_POST) {
+
+if(isset($_POST['wp-submit']))
+{
     $nombre = $_POST['nombre'];
     $telefono = $_POST['telefono'];
     $email = $_POST['email'];
     $curriculum = $_POST['curriculum'];
- 
-    $sql = "INSERT INTO candidatos (nombre, email, telefono, curriculum) VALUES ('$nombre', '$email', '$telefono', '$curriculum')";
-    if($connect->query($sql) === TRUE) {
-        echo "<p>New Record Successfully Created</p>";
-        echo "<a href='prospecto.php'><button type='button'>Back</button></a>";
-        echo "<a href='index.php'><button type='button'>Home</button></a>";
-    } else {
-        echo "Error " . $sql . ' ' . $connect->connect_error;
+
+    
+    $Mysqli= new mysqli(host,user,pass,db);
+    if($Mysqli->connect_errno) {
+        die("Error de conexión: " . $Mysqli->mysqli_connect_errno() . ", " . $Mysqli->connect_error());
     }
- 
-    $connect->close();
+    else{
+        $consulta="INSERT INTO candidatos(nombre, email, telefono, curriculum) VALUES ('$nombre','$email','$telefono','$curriculum')";
+        if($Mysqli->query($consulta)==true){
+        }else {
+            die("error".$Mysqli->error);
+        }
+    }
+    mysqli_close($Mysqli);
 }
+
  
 ?>
-
-
-
 <!DOCTYPE html>
 <!--[if lt IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7 "> <![endif]-->
 <!--[if IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
@@ -112,7 +113,7 @@ if($_POST) {
                                                                             
                                         <div class="form-group row mb-0">
                                             <div class="col-sm-10">
-                                                <button type="submit" class="btn btn-primary">Guardar</button>                                                
+                                                <input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Entrar" />                                                
                                             </div>                
                                                                     
                                         </div>                                                                                                
