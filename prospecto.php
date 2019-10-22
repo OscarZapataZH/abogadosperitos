@@ -36,7 +36,9 @@ if($_POST) {
                                         $consulta="INSERT INTO candidatos (nombre, email, telefono, curriculum) VALUES ('$nombre', '$email', '$telefono', '$curriculum')";
                                         $resultado=$sql->query($consulta); 
                                         }
+
                                     }
+                                    mysqli_close($sql);
                                                                                ?>
 
 
