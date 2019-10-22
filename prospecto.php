@@ -1,5 +1,5 @@
 <?php 
- 
+/* 
 require_once 'database.php';
  
 if($_POST) {
@@ -8,7 +8,7 @@ if($_POST) {
     $email = $_POST['email'];
     $curriculum = $_POST['curriculum'];
  
-    $sql = "INSERT INTO candidatos (nombre, email, telefono, curriculum) VALUES ('$nombre', '$email', '$telefono', '$curriculum')";
+    $sql = "INSERT INTO candidatos (nombre, email, telefono, curriculum) VALUES ('$nombre', '$email', '$telefono', '$curriculum')";    
     if($connect->query($sql) === TRUE) {
         echo "<p>New Record Successfully Created</p>";
         echo "<a href='prospecto.php'><button type='button'>Back</button></a>";
@@ -19,8 +19,25 @@ if($_POST) {
  
     $connect->close();
 }
- 
+ */
 ?>
+<?php
+                                 require_once 'database.php';
+                                 $sql=new mysqli(host,user,pass,db);
+                                 if($_POST) {
+                                    $nombre = $_POST['nombre'];
+                                    $telefono = $_POST['telefono'];
+                                    $email = $_POST['email'];
+                                    $curriculum = $_POST['curriculum'];
+
+                                    if($sql->connect_errno){
+                                        die("Error de conexión: " . $objetoMysqli->mysqli_connect_errno() . ", " . $objetoMysqli->connect_error());
+                                    }else{                                        
+                                        $consulta="INSERT INTO candidatos (nombre, email, telefono, curriculum) VALUES ('$nombre', '$email', '$telefono', '$curriculum')";
+                                        $resultado=$sql->query($consulta); 
+                                        }
+                                    }
+                                                                               ?>
 
 
 
