@@ -109,14 +109,14 @@ if(isset($_POST['wp-submit']))
                                         <div class="form-group row">
                                             <label for="inputEmail3" class="col-sm-2 col-form-label">Currículum</label>
                                             <div class="col-sm-10">
-                                            <input name="file" class="form-control" type="file" placeholder="curriculum" required>                                            
+                                            <input name="file" class="form-control" type="file" placeholder="curriculum" required>
                                             </div>
                                         </div>                                                        
                                                                                                                                     
                                                                             
                                         <div class="form-group row mb-0">
                                             <div class="col-sm-10">
-                                                <input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Entrar" />
+                                                <input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Entrar" />                                                
                                             </div>                
                                                                     
                                         </div>                                                                                                
