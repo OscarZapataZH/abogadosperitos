@@ -5,8 +5,11 @@ if(isset($_POST['wp-submit']))
 {
     $nombre = $_POST['nombre'];
     $telefono = $_POST['telefono'];
-    $email = $_POST['email'];
-    $curriculum = $_POST['curriculum'];
+    $email = $_POST['email'];    
+    $pname = rand(1000,10000)."-".$_FILES["file"]["name"];
+    $tname = $_FILES["file"]["tmp_name"];
+    $uploads_dir = 'archivos/';
+    move_uploaded_file($tname, $uploads_dir.'/'.$pname);
 
     
     $Mysqli= new mysqli(host,user,pass,db);
@@ -14,7 +17,7 @@ if(isset($_POST['wp-submit']))
         die("Error de conexión: " . $Mysqli->mysqli_connect_errno() . ", " . $Mysqli->connect_error());
     }
     else{
-        $consulta="INSERT INTO candidatos(nombre, email, telefono, curriculum) VALUES ('$nombre','$email','$telefono','$curriculum')";
+        $consulta="INSERT INTO candidatos(nombre, email, telefono, curriculum) VALUES ('$nombre','$email','$telefono','$pname')";
         if($Mysqli->query($consulta)==true){
         }else {
             die("error".$Mysqli->error);
@@ -75,7 +78,7 @@ if(isset($_POST['wp-submit']))
                             <h5 class="hk-sec-title">Datos generales</h5>
                             <div class="row">
                                 <div class="col-sm">
-                                <form class="form-horizontal" action="prospecto.php" method="post">
+                                <form class="form-horizontal" action="prospecto.php" method="post" enctype="multipart/form-data">
 
 
                                         <div class="form-group row " >
@@ -106,14 +109,14 @@ if(isset($_POST['wp-submit']))
                                         <div class="form-group row">
                                             <label for="inputEmail3" class="col-sm-2 col-form-label">Currículum</label>
                                             <div class="col-sm-10">
-                                            <input name="curriculum" class="form-control" type="file" placeholder="curriculum" required>                                            
+                                            <input name="file" class="form-control" type="file" placeholder="curriculum" required>                                            
                                             </div>
                                         </div>                                                        
                                                                                                                                     
                                                                             
                                         <div class="form-group row mb-0">
                                             <div class="col-sm-10">
-                                                <input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Entrar" />                                                
+                                                <input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Entrar" />
                                             </div>                
                                                                     
                                         </div>                                                                                                
